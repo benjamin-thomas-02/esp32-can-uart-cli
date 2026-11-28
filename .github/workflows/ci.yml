@@ -39,7 +39,7 @@ jobs:
           idf.py build
 
       - name: Upload firmware
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: esp32-firmware
           if-no-files-found: error
