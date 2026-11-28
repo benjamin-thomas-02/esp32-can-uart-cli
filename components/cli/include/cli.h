@@ -5,7 +5,7 @@
 #include <stddef.h>
 
 #define CLI_MAX_LINE      128   /* max characters in one command line (incl. '\0') */
-#define CLI_MAX_ARGS      8     /* max words in one command line */
+#define CLI_MAX_ARGS      12    /* max words in one command line */
 #define CLI_MAX_COMMANDS  16    /* max registered commands */
 
 typedef enum {

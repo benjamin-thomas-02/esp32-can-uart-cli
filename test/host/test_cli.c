@@ -89,15 +89,15 @@ static void test_tokenize_empty_and_blank_lines(void)
 
 static void test_tokenize_max_args_is_allowed(void)
 {
-    char  line[] = "a b c d e f g h";            /* 8 words */
+    char  line[] = "a b c d e f g h i j k l";            /* 12 words */
     char *argv[CLI_MAX_ARGS];
 
-    TEST_ASSERT_EQUAL_INT(8, cli_tokenize(line, argv, CLI_MAX_ARGS));
+    TEST_ASSERT_EQUAL_INT(12, cli_tokenize(line, argv, CLI_MAX_ARGS));
 }
 
 static void test_tokenize_too_many_args(void)
 {
-    char  line[] = "a b c d e f g h i";          /* 9 words */
+    char  line[] = "a b c d e f g h i j k l m";          /* 13 words */
     char *argv[CLI_MAX_ARGS];
 
     TEST_ASSERT_EQUAL_INT(-1, cli_tokenize(line, argv, CLI_MAX_ARGS));
@@ -143,7 +143,7 @@ static void test_execute_empty_line(void)
 
 static void test_execute_too_many_args_does_not_call_handler(void)
 {
-    char line[] = "test 1 2 3 4 5 6 7 8";        /* 9 words */
+    char line[] = "test 1 2 3 4 5 6 7 8 9 10 11 12";        /* 13 words */
     cli_register(&s_spy_cmd);
 
     TEST_ASSERT_EQUAL_INT(CLI_ERR_TOO_MANY_ARGS, cli_execute(line));
