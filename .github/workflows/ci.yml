@@ -1,0 +1,50 @@
+name: CI
+
+on:
+  push:
+    branches: [master, main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  host-tests:
+    name: Host unit tests (Unity)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v4
+
+      - name: Configure
+        run: cmake -S test/host -B build-host
+
+      - name: Build
+        run: cmake --build build-host
+
+      - name: Run tests
+        run: ctest --test-dir build-host --output-on-failure
+
+  firmware-build:
+    name: Firmware build (ESP-IDF v6.1)
+    runs-on: ubuntu-latest
+    container: espressif/idf:v6.1
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v4
+
+      - name: Build firmware
+        shell: bash
+        run: |
+          git config --global --add safe.directory "$GITHUB_WORKSPACE"
+          . $IDF_PATH/export.sh
+          idf.py build
+
+      - name: Upload firmware
+        uses: actions/upload-artifact@v4
+        with:
+          name: esp32-firmware
+          if-no-files-found: error
+          path: |
+            build/*.bin
+            build/bootloader/bootloader.bin
+            build/partition_table/partition-table.bin
+            build/flash_args
