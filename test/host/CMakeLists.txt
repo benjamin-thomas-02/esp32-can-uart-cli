@@ -33,3 +33,18 @@ add_test(NAME test_cli COMMAND test_cli)
 add_executable(test_cli_line test_cli_line.c)
 target_link_libraries(test_cli_line PRIVATE cli unity)
 add_test(NAME test_cli_line COMMAND test_cli_line)
+
+# ---- can_service (M6) ----
+set(CAN_SERVICE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../../components/can_service)
+set(PORTS_DIR       ${CMAKE_CURRENT_SOURCE_DIR}/../../components/ports)
+
+add_library(can_service STATIC ${CAN_SERVICE_DIR}/can_service.c)
+target_include_directories(can_service PUBLIC
+    ${CAN_SERVICE_DIR}/include
+    ${PORTS_DIR}/include
+)
+target_compile_options(can_service PRIVATE -Wall -Wextra -Werror)
+
+add_executable(test_can_service test_can_service.c fake_can_port.c)
+target_link_libraries(test_can_service PRIVATE can_service unity)
+add_test(NAME test_can_service COMMAND test_can_service)
