@@ -5,3 +5,6 @@ dependencies.lock
 .vscode/
 __pycache__/
 build-host/
+.venv/
+.pytest_cache/
+hil-report.xml
