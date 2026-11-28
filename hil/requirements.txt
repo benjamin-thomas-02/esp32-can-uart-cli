@@ -1,2 +1,2 @@
 pyserial>=3.5
-pytest>=8.0
+pytest>=9.2.0
